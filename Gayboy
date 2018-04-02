@@ -1,0 +1,73 @@
+#include <FastLED.h>
+#define NUM_LEDS 160
+#define DATA_PIN 3
+CRGB leds[NUM_LEDS];
+int ball = 40;
+int pb = ball;
+int xv = 1; 
+int yv = -1;
+int f = 0;
+int player = 74;
+unsigned long prev = 0;
+//setting positions for the ball, balltail and update rate
+
+char Frame[1000] = {
+'f','g','o','t','a','g','g','o','t','a','g','g','o','t','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a'};
+
+
+void setup() {
+
+FastLED.addLeds<PL9823, DATA_PIN>(leds, NUM_LEDS);
+randomSeed(analogRead(0));
+FastLED.clear();
+pinMode(8,INPUT_PULLUP);
+pinMode(2,INPUT_PULLUP);
+Serial.begin(9600);
+
+} 
+
+void loop() {
+
+
+
+
+
+
+
+
+
+
+
+//Mario
+for(int x = 0; x < 159; x++){
+  
+   if(Frame[x] == 'g'){leds[x] = "00aa00";}
+   else if(Frame[x] == 'w'){leds[x] = "CCCCCC";}
+   else if(Frame[x] == 'r'){leds[x] = "AA0000";}
+   else if(Frame[x] == 'b'){leds[x] = "0000AA";}
+   else if(Frame[x] == 'y'){leds[x] = "AAAAAA";}
+   else if(Frame[x] == 'p'){leds[x] = "AA00AA";}
+   else if(Frame[x] == 'g'){leds[x] = "00AA00";}
+   else if(Frame[x] == '0'){leds[x] = "AA8888";}
+   
+   
+
+   
+
+
+if (f > 15){
+
+  f = 0;
+  
+  }
+}
+
+delay(500);
+
+    FastLED.show();
+    
+delay(500);
+
+
+
+}
