@@ -1,22 +1,13 @@
-#include <FastLED.h>
-#define NUM_LEDS 160
-#define DATA_PIN 3
+#include <FastLED.h> //includes the RGB lib we use to control the leds.
+#define NUM_LEDS 160 //amount of leds being used 80 - 160 depending if we use one or two screens.
+#define DATA_PIN 3 //The pin we use to send the RGB value to the diodes.
 CRGB leds[NUM_LEDS];
-int ball = 40;
-int pb = ball;
-int xv = 1; 
-int yv = -1;
-int f = 0;
-int player = 74;
-unsigned long prev = 0;
-//setting positions for the ball, balltail and update rate
 
-char Frame[1000] = {
+char Frame[1000] = { //Here is where we set all the diode data (pictures / animation)
 'f','g','o','t','a','g','g','o','t','a','g','g','o','t','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a','g','g','o','t','a'};
 
 
-void setup() {
-
+void setup() { 
 FastLED.addLeds<PL9823, DATA_PIN>(leds, NUM_LEDS);
 randomSeed(analogRead(0));
 FastLED.clear();
@@ -38,36 +29,16 @@ void loop() {
 
 
 
-//Mario
+//Picture preview 
 for(int x = 0; x < 159; x++){
-  
+   //Checks which colour the diode should use (depending the data list index, AKA Frame)
    if(Frame[x] == 'g'){leds[x] = "00aa00";}
    else if(Frame[x] == 'w'){leds[x] = "CCCCCC";}
    else if(Frame[x] == 'r'){leds[x] = "AA0000";}
    else if(Frame[x] == 'b'){leds[x] = "0000AA";}
    else if(Frame[x] == 'y'){leds[x] = "AAAAAA";}
    else if(Frame[x] == 'p'){leds[x] = "AA00AA";}
-   else if(Frame[x] == 'g'){leds[x] = "00AA00";}
+   else if(Frame[x] == 'g'){leds[x] = "00AA00";} 
    else if(Frame[x] == '0'){leds[x] = "AA8888";}
-   
-   
-
-   
-
-
-if (f > 15){
-
-  f = 0;
-  
-  }
-}
-
-delay(500);
-
-    FastLED.show();
-    
-delay(500);
-
-
-
+   FastLED.show();
 }
