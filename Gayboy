@@ -32,13 +32,13 @@ void loop() {
 //Picture preview 
 for(int x = 0; x < 159; x++){
    //Checks which colour the diode should use (depending the data list index, AKA Frame)
-   if(Frame[x] == 'g'){leds[x] = "00aa00";}
-   else if(Frame[x] == 'w'){leds[x] = "CCCCCC";}
-   else if(Frame[x] == 'r'){leds[x] = "AA0000";}
-   else if(Frame[x] == 'b'){leds[x] = "0000AA";}
-   else if(Frame[x] == 'y'){leds[x] = "AAAAAA";}
-   else if(Frame[x] == 'p'){leds[x] = "AA00AA";}
-   else if(Frame[x] == 'g'){leds[x] = "00AA00";} 
-   else if(Frame[x] == '0'){leds[x] = "AA8888";}
+   if(Frame[x] == 'g'){leds[x] = 0x00AA00;}
+   else if(Frame[x] == 'w'){leds[x] = 0xCCCCCC;}
+   else if(Frame[x] == 'r'){leds[x] = 0xAA0000;}
+   else if(Frame[x] == 'b'){leds[x] = 0x0000AA;}
+   else if(Frame[x] == 'y'){leds[x] = 0xAAAAAA;}
+   else if(Frame[x] == 'p'){leds[x] = 0xAA00AA;}
+   else if(Frame[x] == 'g'){leds[x] = 0x00AA00;} 
+   else if(Frame[x] == '0'){leds[x] = 0xAA8888;}
    FastLED.show();
 }
