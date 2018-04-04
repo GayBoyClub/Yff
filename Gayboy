@@ -39,6 +39,6 @@ for(int x = 0; x < 159; x++){
    else if(Frame[x] == 'y'){leds[x] = 0xAAAAAA;}
    else if(Frame[x] == 'p'){leds[x] = 0xAA00AA;}
    else if(Frame[x] == 'g'){leds[x] = 0x00AA00;} 
-   else if(Frame[x] == '0'){leds[x] = 0xAA8888;}
+   else if(Frame[x] == 'o'){leds[x] = 0xAA8888;}
    FastLED.show();
 }
