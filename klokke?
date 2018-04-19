@@ -120,7 +120,7 @@ int i = 0;
 
 void ledset( int p)
 {
-   if(Frame[p+i] == 'g'){leds[p+i] = 0x00AA00;}
+   if(Frame[p+i] == 'g'){leds[p] = 0x00AA00;}
    else if(Frame[p+i] == 'w'){leds[p] = 0xCCCCCC;}
    else if(Frame[p+i] == 'r'){leds[p] = 0x550000;}
    else if(Frame[p+i] == 'b'){leds[p] = 0x000055;}
