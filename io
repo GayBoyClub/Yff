@@ -8,7 +8,7 @@ char Frame[1000] = { //Here is where we set all the diode data (pictures / anima
 'b','b','b','b','b','b','b','b', 
 'b','b','b','b','b','b','b','b', 
 'b','b','b','b','b','b','b','b', 
-'b','b','b','b','b','b','b','b',
+'b','b','b','b','b','b','b','b', //one frame
 'b','b','b','b','b','b','b','b', 
 'b','b','b','b','b','b','b','b', 
 'b','b','b','b','b','b','b','b', 
@@ -71,7 +71,7 @@ char Frame[1000] = { //Here is where we set all the diode data (pictures / anima
 'r','r','r','r','r','r','r','r',
 };
 
-int i = 720;
+int i = 720; // sets the starting point of the loop
 
 void ledset( int p)
 {
@@ -89,16 +89,13 @@ void ledset( int p)
 
 void setup() { 
 FastLED.addLeds<PL9823, DATA_PIN>(leds, NUM_LEDS); 
-randomSeed(analogRead(0));
 FastLED.clear();
-pinMode(8,INPUT_PULLUP); // button inputs
-pinMode(2,INPUT_PULLUP); 
 Serial.begin(9600); //  Serial communication for debugging purposes
 } 
 
 void loop() {
 for(int t = 0; t < 8; t++){
-//Picture preview 
+//Picture update
 ledset(0+t);
 ledset(8+t);
 ledset(16+t);
@@ -115,13 +112,14 @@ ledset(72+t);
 
 
 }
-  FastLED.show();
-  delay(50); 
-  if(x == true){
+  FastLED.show(); // shows the information given to the diodes
+  delay(50); // 50 ms delay
+  
+  if(x == true){ //checks if it needs to go in or outwards 
 i = i-80;
   }
   else{i = i+80;}
-if(i == 0){x = false;}
+if(i == 0){x = false;}/* changes to state of x to match if it needs to go in or out*/
 else if (i == 480){x = true;}
 
 
