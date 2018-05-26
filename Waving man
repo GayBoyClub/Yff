@@ -1,93 +1,181 @@
+#include <FastLED.h> // includes the RGB lib we use to control the leds. 
 
+#define NUM_LEDS 80 // amount of leds being used 80 - 160 depending if we use one or two screens. 
 
-#include <FastLED.h> // includes the RGB lib we use to control the leds.
-#define NUM_LEDS 80 // amount of leds being used 80 - 160 depending if we use one or two screens.
-#define DATA_PIN 5 // The pin we use to send the RGB value to the diodes.
-CRGB leds[NUM_LEDS];
-bool x = true;
-char Frame[1000] = { //Here is where we set all the diode data (pictures / animation)
- 'r','r','r','r','r','r','r','r',
-'r','r','r','g','g','r','r','r', 
-'r','r','r','g','g','r','b','r', 
-'r','r','r','b','b','b','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','b','r','r','b','r','r',
-'r','r','r','r','r','r','r','r',
-'r','r','r','r','r','r','r','r',
-
-'r','r','r','g','g','r','r','r', 
-'r','r','r','g','g','b','r','r', 
-'r','r','r','b','b','b','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','r','b','b','r','r','r', 
-'r','r','b','r','r','b','r','r',
-'r','r','r','r','r','r','r','r',
-'r','r','r','r','r','r','r','r',
-
-};
-
-int i = 80;
-
-void ledset( int p)
-{
-   if(Frame[p+i] == 'g'){leds[p+i] = 0x00AA00;}
-   else if(Frame[p+i] == 'w'){leds[p] = 0xCCCCCC;}
-   else if(Frame[p+i] == 'r'){leds[p] = 0x550000;}
-   else if(Frame[p+i] == 'b'){leds[p] = 0x000055;}
-   else if(Frame[p+i] == 'y'){leds[p] = 0xAAAAAA;}
-   else if(Frame[p+i] == 'l'){leds[p] = 0xAA00AA;} 
-   else if(Frame[p+i] == 'o'){leds[p] = 0xAA8800;}  
-}
-
-
-
-
-void setup() { 
-FastLED.addLeds<PL9823, DATA_PIN>(leds, NUM_LEDS); 
-randomSeed(analogRead(0));
-FastLED.clear();
-pinMode(8,INPUT_PULLUP); // button inputs
-pinMode(2,INPUT_PULLUP); 
-Serial.begin(9600); //  Serial communication for debugging purposes
-} 
-
-void loop() {
-for(int t = 0; t < 8; t++){
-//Picture preview 
-ledset(0+t);
-ledset(8+t);
-ledset(16+t);
-ledset(24+t);
-ledset(32+t);
-ledset(40+t);
-ledset(48+t);
-ledset(56+t);
-ledset(64+t);
-ledset(72+t);
-
-
-
-
-
-}
-  FastLED.show();
-  delay(500); 
-  if(x == true){
-i = i-80;
-  }
-  else{i = i+80;}
-if(i == 0){x = false;}
-else if (i == 80){x = true;}
-
-
-
+#define DATA_PIN 5 // The pin we use to send the RGB value to. 
 
  
+
+CRGB leds[NUM_LEDS]; 
+
+ 
+
+char Frame[1000] = { //Here is where we set all the diode data  
+
+/* Change all the frames to get different pictures, remember one frame is 8*10(x,y) so make pictures based on that. */ 
+
+'r','r','r','r','r','r','r','r', 
+
+'r','r','r','g','g','r','r','r',  
+
+'r','r','r','g','g','r','b','r',  
+
+'r','r','r','b','b','b','r','r',  
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','r','b','b','r','r','r',  // one frame (1 frame = 80 indexes) 
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','b','r','r','b','r','r', 
+
+'r','r','r','r','r','r','r','r', 
+
+'r','r','r','r','r','r','r','r', 
+
   
 
-}
+'r','r','r','g','g','r','r','r',  
+
+'r','r','r','g','g','b','r','r',  
+
+'r','r','r','b','b','b','r','r',  
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','r','b','b','r','r','r', // another frame (1 frame = 80 indexes) 
+
+'r','r','r','b','b','r','r','r',  
+
+'r','r','b','r','r','b','r','r', 
+
+'r','r','r','r','r','r','r','r', 
+
+'r','r','r','r','r','r','r','r', 
+
+  
+
+}; 
+
+  
+
+int i = 80; /*sets the starting point of the animation. Change this depending on your logic, if its decreasing, then you have to set it as frames*80. This is mandatory to make sure it won't be showing corrupted data. */ 
+
+  
+
+void ledset( int p)   
+
+/* checks what color the diode is going to need to be based on the Frame list(framelist is where the pictures lie)*/ 
+
+{ 
+
+   if(Frame[p+i] == 'g'){leds[p+i] = 0x00AA00;} 
+
+   else if(Frame[p+i] == 'w'){leds[p] = 0xCCCCCC;} 
+
+   else if(Frame[p+i] == 'r'){leds[p] = 0x550000;} 
+
+   else if(Frame[p+i] == 'b'){leds[p] = 0x000055;} 
+
+   else if(Frame[p+i] == 'y'){leds[p] = 0xAAAAAA;} 
+
+   else if(Frame[p+i] == 'l'){leds[p] = 0xAA00AA;}  
+
+   else if(Frame[p+i] == 'o'){leds[p] = 0xAA8800;}   
+
+} 
+
+  
+
+void setup() {  
+
+FastLED.addLeds<PL9823, DATA_PIN>(leds, NUM_LEDS);  /*tells FastLED how many diodes are being used(change if you're using more)*/ 
+
+FastLED.clear(); //clears the diodes 
+
+Serial.begin(9600); //  Serial communication for debugging purposes 
+
+}  
+
+  
+
+void loop() { 
+
+/* If you would want only one line at a time to update, you would want to change it by 8, however if you want the frames to change frame at a time, you would want to change it by 80 instead.  
+
+Example: you have two frames (160 indexes) that you would want to update each line at a time, you would do so by either increasing or decreasing by 8(if you choose to decrease, remember to set "i" to max value at the start to stop corruption from happening)  
+
+If you want each frame to update instead of each line, you would have to increase or decrease "i" by 80 each time. (if you choose to decrease, remember to set  "i" to max value at the start to stop corruption to happen) */ 
+
+ 
+
+i = 80; // sets what frame it should start on 
+
+for(int t = 0; t < 8; t++){ //updates all the diodes  
+
+ledset(0+t); 
+
+ledset(8+t); 
+
+ledset(16+t); 
+
+ledset(24+t); 
+
+ledset(32+t); 
+
+ledset(40+t); 
+
+ledset(48+t); 
+
+ledset(56+t); 
+
+ledset(64+t); 
+
+ledset(72+t); 
+
+} 
+
+ 
+
+  FastLED.show(); //updates the screen 
+
+  delay(500);  //waits 500 ms 
+
+ 
+
+  i = 0; // changes what the next loop starts on 
+
+for(int t = 0; t < 8; t++){ //updates all the diodes  
+
+ledset(0+t); 
+
+ledset(8+t); 
+
+ledset(16+t); 
+
+ledset(24+t); 
+
+ledset(32+t); 
+
+ledset(40+t); 
+
+ledset(48+t); 
+
+ledset(56+t); 
+
+ledset(64+t); 
+
+ledset(72+t); 
+
+} 
+
+ FastLED.show(); //updates the screen 
+
+delay(500);  //waits 500 ms 
+
+ } 
